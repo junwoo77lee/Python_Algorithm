@@ -15,17 +15,15 @@ def filling_the_sack(items: List[Tuple[int, int]], capacity_of_sack) -> int:
     sack = []
     total_value = 0
     for weight, price in sorted(items, key=lambda x: x[1] / x[0], reverse=True):
-        if sum(sack) < capacity_of_sack:
-            if sum(sack) + weight < capacity_of_sack:
-                total_value += price
-                sack.append(weight)
-            else:
-                total_value += price / (capacity_of_sack - sum(sack))
-                sack.append(capacity_of_sack - sum(sack))
+        if sum(sack) + weight < capacity_of_sack:
+            total_value += price
+            sack.append(weight)
         else:
+            total_value += (capacity_of_sack - sum(sack)) * price / weight
+            sack.append(capacity_of_sack - sum(sack))
             break
 
-    return total_value
+    return total_value, sack
 
 
 # Similar, but improved by thinking in the opposite way
